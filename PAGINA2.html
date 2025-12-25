@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página 2</title>
+  <link rel="stylesheet" href="DISENYO.css">
+  <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: black;
+        height: 100vh;
+        touch-action: none;
+      }
+
+      #game-container {
+        position: relative;
+        width: 640px;
+        height: 690px;
+        overflow: hidden;
+        border: 10px solid black;
+        background: black;
+      }
+
+      #world {
+        position: absolute;
+        width: 1280px;
+        height: 1380px;
+        background-image: url('imagenes/fondocreepybien.png');
+        background-size: cover;
+        transition: none;
+      }
+
+          /* Personaje */
+    #character {
+      position: absolute;
+      width: 80px;
+      height: 125px;  
+      background-image: url('imagenes/characterdown.png');
+      background-size: cover;
+      z-index: 3;
+      top: 340px;
+      left: 350px;
+    }
+
+      audio {
+        display: none;
+      }
+
+      #puerta {
+      position: absolute;
+      width: 115px;
+      height: 130px;
+      background-image: url('imagenes/puerta3.png');
+      background-size: cover;
+      top: 87px; 
+      left: 590px;
+      z-index: 2;
+    }
+
+      #fantasma {
+      position: absolute;
+      width: 89px;
+      height: 96px;
+      background-image: url('imagenes/fantasma.png');
+      background-size: cover;
+      top: 87px; 
+      left: 750px;
+      z-index: 1; /* detrás del personaje */
+      pointer-events: none; /* no interfiere con inputs */
+      animation: subir-bajar-fantasma 1.5s infinite ease-in-out; /* flotar */
+    }
+
+    /* Objeto central que bloquea el paso */
+    #cosa1 {
+      position: absolute;
+      width: 69px;
+      height: 139px;
+      background-image: url('imagenes/cosa1.png');
+      background-size: cover;
+      top: 740px;
+      left: 850px;
+      z-index: 2;
+    }
+
+    #tobogan {
+      position: absolute;
+      width: 110px;
+      height: 113px;
+      background-image: url('imagenes/tobogan.png');
+      background-size: cover;
+      top: 415px;
+      left: 220px;
+      z-index: 2;
+    }
+
+    #muchachas {
+      position: absolute;
+      width: 236px;
+      height: 191px;
+      background-image: url('imagenes/muchachas.png');
+      background-size: cover;
+      top: 575px;
+      left: 220px;
+      z-index: 2;
+    }
+
+    #esfera {
+      position: absolute;
+      width: 242px;
+      height: 214px;
+      background-image: url('imagenes/esfera.png');
+      background-size: cover;
+      top: 355px;
+      left: 950px;
+      z-index: 2;
+    }
+
+    #pozo {
+      position: absolute;
+      width: 80px;
+      height: 92px;
+      background-image: url('imagenes/pozo.png');
+      background-size: cover;
+      top: 955px;
+      left: 220px;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="background-music" loop>
+    <source src="imagenes/musica2.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- sonido de voz opcional (igual que en PAGINA.html) -->
+  <audio id="voice-sound" src="imagenes/voice.mp3"></audio>
+
+  <div id="game-container">
+    <div id="world">
+      <div id="character"></div>
+      <div id="puerta"></div>
+      <div id="cosa1"></div>
+      <div id="tobogan"></div>
+      <div id="muchachas"></div>
+      <div id="esfera"></div>
+      <div id="pozo"></div>
+      <div id="fantasma"></div>
+    </div>
+  </div>
+
+  <!-- Diálogo colocado fuera del contenedor de juego para que no escale con el mundo -->
+  <div id="dialog" class="dialog">
+    <p id="dialogText"></p>
+    <div id="options"></div>
+  </div>
+
+  <div id="controls">
+    <div id="left-controls">
+      <button class="control-btn" id="up">▲</button>
+      <div class="horizontal-buttons">
+        <button class="control-btn" id="left">◀</button>
+        <button class="control-btn" id="down">▼</button>
+        <button class="control-btn" id="right">▶</button>
+      </div>
+    </div>
+
+    <div id="right-controls">
+      <button class="control-btn" id="interact">★</button>
+    </div>
+  </div>
+
+  <script src="JAVASCRIPT2.js"></script>
+</body>
+</html>

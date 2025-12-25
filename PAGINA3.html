@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YAYYY</title>
+  <link rel="stylesheet" href="DISENYO.css">
+  <style>
+    #frame {
+      position: absolute;
+      width: 640px; /* Mantenemos el ancho de 640px */
+      height: 690px; /* Cambiado de 600px a 690px (600 + 15%) */
+      background-image: url('imagenes/habitacion3.png');
+      background-size: cover;
+      border: 10px solid black;
+      overflow: hidden;
+      transform-origin: 0 0;
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="background-music" loop>
+    <source src="imagenes/musica3.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="voice-sound" src="imagenes/voice.mp3"></audio>
+
+  <div id="game-container">
+    <div id="frame">
+      <div id="mesacumple" aria-hidden="true"></div>
+      <div id="pastel" aria-hidden="true"></div>
+      <div id="mininota" aria-hidden="true"></div>
+      <div id="pancarta" aria-hidden="true"></div>
+
+      <!-- Left-side seals -->
+      <div class="foca left1" aria-hidden="true"></div>
+      <div class="foca left2" aria-hidden="true"></div>
+      <div class="foca left3" aria-hidden="true"></div>
+
+      <!-- Tele sprite (abajo a la izquierda) -->
+      <img id="tele" class="tele" src="imagenes/tele.png" alt="Tele" aria-hidden="true" />
+
+      <!-- Right-side seals -->
+      <div class="foca right1" aria-hidden="true"></div>
+      <div class="foca right2" aria-hidden="true"></div>
+      <div class="foca right3" aria-hidden="true"></div>
+
+      <div id="character"></div>
+      <img id="focarealista" src="imagenes/focarealista.png" alt="Foca realista" class="foca-realista" />
+    </div>
+
+    <div id="dialog" class="dialog">
+      <p id="dialogText"></p>
+      <div id="options"></div>
+    </div>  
+
+    <div id="controls">
+      <div id="left-controls">
+        <button class="control-btn" id="up">▲</button>
+        <div class="horizontal-buttons">
+          <button class="control-btn" id="left">◀</button>
+          <button class="control-btn" id="down">▼</button>
+          <button class="control-btn" id="right">▶</button>
+        </div>
+      </div>
+
+      <div id="right-controls">
+        <button class="control-btn" id="interact">★</button>
+      </div>
+    </div>
+    <div id="confetti-container" aria-hidden="true"></div>
+  </div>
+  <div id="screen-overlay" aria-hidden="true"></div>
+
+  <script src="JAVASCRIPT3.js"></script>
+
+</body>
+</html>

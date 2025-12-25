@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EL FIN DE TODO</title>
+  <link rel="stylesheet" href="DISENYO.css">
+</head>
+<body>
+
+  <audio id="background-music" loop>
+    <source src="imagenes/musica.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="voice-sound" src="imagenes/voice.mp3"></audio>
+  
+  <div id="start-screen">
+    <h2 id="welcome-text">Acepta tu recipiente para acceder al mundo</h2>
+    <img src="imagenes/charactershadow.png" alt="Shadow" id="start-shadow">
+    <img src="imagenes/start.png" alt="Iniciar" id="start-btn">
+  </div>
+
+  <div id="game-container">
+    <div id="frame">
+      <div id="mesita"></div>
+      <div id="cama"></div>
+      <div id="character"></div>
+      <div id="escritorio"></div>
+      <div id="silla"></div>
+      <div id="mesa1"></div>
+      <div id="mesa2"></div>
+      <div id="mochila"></div>
+      <div id="guitarra"></div>
+      <div id="foca1"></div>
+      <div id="foca2"></div>
+      <div id="puerta"></div>
+    </div>
+
+    <div id="dialog" class="dialog">
+      <p id="dialogText"></p>
+      <div id="options"></div>
+    </div>  
+
+    <div id="controls">
+      <div id="left-controls">
+        <button class="control-btn" id="up">▲</button>
+        <div class="horizontal-buttons">
+          <button class="control-btn" id="left">◀</button>
+          <button class="control-btn" id="down">▼</button>
+          <button class="control-btn" id="right">▶</button>
+        </div>
+      </div>
+
+      <div id="right-controls">
+        <button class="control-btn" id="interact">★</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="JAVASCRIPT.js"></script>
+
+</body>
+</html>

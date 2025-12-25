@@ -1,0 +1,648 @@
+body {
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('imagenes/fondo.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      height: 100vh;
+      touch-action: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    #game-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #frame {
+      position: absolute;
+      width: 640px; /* Mantenemos el ancho de 640px */
+      height: 690px; /* Cambiado de 600px a 690px (600 + 15%) */
+      background-image: url('imagenes/habitacion.png');
+      background-size: cover;
+      border: 10px solid black;
+      overflow: hidden;
+      transform-origin: 0 0;
+    }
+
+    /* Personaje */
+    #character {
+      position: absolute;
+      width: 80px;
+      height: 125px;  
+      background-image: url('imagenes/characterdown.png');
+      background-size: cover;
+      z-index: 3;
+      top: 340px;
+      left: 350px;
+    }
+
+    audio {
+      display: none;
+    }
+
+    #cama {
+      position: absolute;
+      width: 180px;
+      height: 255px;
+      background-image: url('imagenes/cama.png');
+      background-size: cover;
+      top: 120px; 
+      left: 270px; 
+      z-index: 2;
+    }
+
+    #mesa1 {
+      position: absolute;
+      width: 94px;
+      height: 105px;
+      background-image: url('imagenes/mesa1.png');
+      background-size: cover;
+      top: 140px; 
+      left: 455px; 
+      z-index: 2;
+    }
+
+    #foca2 {
+      position: absolute;
+      width: 47px;
+      height: 36px;
+      background-image: url('imagenes/foca2.png');
+      background-size: cover;
+      top: 130px; 
+      left: 480px; 
+      z-index: 2;
+    }
+
+    #mesa2 {
+      position: absolute;
+      width: 94px;
+      height: 105px;
+      background-image: url('imagenes/mesa1.png');
+      background-size: cover;
+      top: 140px; 
+      left: 170px; 
+      z-index: 2;
+    }
+    
+    #guitarra {
+      position: absolute;
+      width: 64px;
+      height: 206px;
+      background-image: url('imagenes/guitarra.png');
+      background-size: cover;
+      top: 40px; 
+      left: 80px; 
+      z-index: 2;
+    }
+
+    #puerta {
+      position: absolute;
+      width: 60px;
+      height: 112px;
+      background-image: url('imagenes/puerta.png');
+      background-size: cover;
+      top: 540px; 
+      left: 579px;
+      z-index: 2;
+    }
+
+    #mesita {
+      position: absolute;
+      width: 93px;
+      height: 499px;
+      background-image: url('imagenes/mesita.png');
+      background-size: cover;
+      top: 0px; 
+      left: 547px;
+      z-index: 2;
+    }
+
+    #foca1 {
+      position: absolute;
+      width: 72px;
+      height: 119px;
+      background-image: url('imagenes/foca1.png');
+      background-size: cover;
+      top: 260px; 
+      left: -4px;
+      z-index: 2;
+    }
+
+    /* Centered birthday table sprite */
+    #mesacumple {
+      position: absolute;
+      width: 144px;
+      height: 132px;
+      background-image: url('imagenes/mesacumple.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      left: 246px;
+      top: 270px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Cake on the table */
+    #pastel {
+      position: absolute;
+      width: 88px;
+      height: 76px;
+      background-image: url('imagenes/pastel.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      left: 274px; /* centered on the table */
+      top: 270px;
+      z-index: 3; /* above table but below character (character is after in DOM with z-index 3) */
+      pointer-events: none;
+    }
+
+    #mininota {
+      position: absolute;
+      width: 42px;
+      height: 28px;
+      background-image: url('imagenes/mininota.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      left: 324px; /* centered on the table */
+      top: 330px;
+      z-index: 4; /* above table but below character (character is after in DOM with z-index 3) */
+      pointer-events: none;
+    }
+    
+    #pancarta {
+      position: absolute;
+      width: 360px;
+      height: 196px;
+      background-image: url('imagenes/pancarta.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      left: 135px; /* centered on the table */
+      top: 0px;
+      z-index: 4; /* above table but below character (character is after in DOM with z-index 3) */
+      pointer-events: none;
+    }
+    
+    /* Floating seals (focas) around the table - decorative (jump motion) */
+    .foca {
+      position: absolute;
+      width: 47px;
+      height: 36px;
+      background-image: url('imagenes/foca2.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      z-index: 2;
+      pointer-events: none;
+      will-change: transform;
+      /* base jump height (negative Y) — default slightly higher */
+      --jump: -26px;
+      /* Use a linear timing; keyframes use --jump to control heights per-element */
+      animation-name: jump-foca;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+
+    /* Left side seals (more horizontal alignment, more spacing) */
+    .foca.left1 { left: 20px; top: 350px; animation-duration: 2.2s; animation-delay: 0s; --jump: -156px; }
+    .foca.left2 { left: 100px; top: 300px; animation-duration: 2.6s; animation-delay: 0.25s; --jump: -132px; }
+    .foca.left3 { left: 180px; top: 350px; animation-duration: 2.4s; animation-delay: 0.5s; --jump: -114px; }
+
+    /* Right side seals (more horizontal alignment, more spacing) */
+    .foca.right1 { left: 400px; top: 350px; animation-duration: 2.3s; animation-delay: 0.12s; --jump: -150px; }
+    .foca.right2 { left: 480px; top: 300px; animation-duration: 2.7s; animation-delay: 0.37s; --jump: -138px; }
+    .foca.right3 { left: 560px; top: 350px; animation-duration: 2.5s; animation-delay: 0.62s; --jump: -120px; }
+
+    /* Keyframes for a jump: very quick upward movement, then faster descent; uses --jump variable */
+    @keyframes jump-foca {
+      0%   { transform: translateY(0px); }
+      6%   { transform: translateY(var(--jump)); } /* very quick upward to peak */
+      18%  { transform: translateY(calc(var(--jump) * 0.6)); } /* begin return */
+      34%  { transform: translateY(6px); }   /* faster downward overshoot */
+      48%  { transform: translateY(0px); }   /* return earlier for faster fall */
+      100% { transform: translateY(0px); }
+    }
+
+    #escritorio {
+      position: absolute;
+      width: 112px;
+      height: 308px;  
+      background-image: url('imagenes/escritorio.png');
+      background-size: cover;
+      top: 383px; 
+      left: 1px; 
+      z-index: 2;
+    }
+
+    #silla {
+      position: absolute;
+      width: 72px;
+      height: 124px;  
+      background-image: url('imagenes/silla.png');
+      background-size: cover;
+      top: 500px; 
+      left: 150px; 
+      z-index: 2;
+    }
+    
+    #mochila {
+      position: absolute;
+      width: 73px;
+      height: 66px;  
+      background-image: url('imagenes/mochila.png');
+      background-size: cover;
+      top: 620px; 
+      left: 320px; 
+      z-index: 2;
+    }
+
+    /* Tele en la esquina inferior izquierda dentro del frame */
+    .tele {
+      position: absolute; /* será relativa a #frame */
+      bottom: 120px;
+      left: 10px;
+      width: 120px;
+      height: auto;
+      z-index: 2; /* por debajo del personaje */
+      pointer-events: none;
+    }
+
+    /* Estilo del cuadro de diálogo */
+    .dialog {
+      position: absolute;
+      top: 20px; /* Cambiado de bottom a top */
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      max-width: 80%;
+      text-align: center;
+      display: none;
+      z-index: 10;
+      font-size: 18px;
+      font-family: "Arial", sans-serif;
+    }
+
+    .dialog p {
+      margin: 0;
+    }
+
+    #controls {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 30px;
+      z-index: 20;
+      user-select: none;
+    }
+
+    #left-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .horizontal-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    #right-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 50px;
+    }
+
+    .control-btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 2px solid #000;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      font-size: 26px;
+      font-weight: bold;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+      touch-action: manipulation;
+      transition: 0.1s;
+    }
+
+    .control-btn:active {
+      background: rgba(255, 255, 255, 0.4);
+      color: black;
+      transform: scale(0.95);
+    }
+
+    /* Ocultar controles en PC */
+    @media (hover: hover) and (pointer: fine) {
+      #controls {
+        display: none;
+      }
+    }
+
+    /* Ajustes para móviles */
+    @media (max-width: 768px) {
+      .control-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 22px;
+      }
+      
+      #controls {
+        padding: 0 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .control-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+      }
+    }
+
+
+    /* Estilos para las opciones del diálogo */
+#options {
+  display: block;
+  margin-top: 10px;
+}
+
+/* Layout for decision dialogs with two options: stacked vertically at the left of the dialog */
+#options.two-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start; /* left-align the buttons */
+  justify-content: flex-start;
+  margin-left: 0;
+}
+
+.option {
+  padding: 8px 15px;
+  margin: 5px;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.option:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.option.selected {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: white;
+  font-weight: bold;
+  border: 1px solid white;
+}
+
+/* Estilo para la foca en la cabeza */
+#foca-on-head {
+  position: absolute;
+  width: 47px;
+  height: 36px;
+  background-image: url('imagenes/foca2.png');
+  background-size: cover;
+  z-index: 4;
+  pointer-events: none;
+  transition: all 0.1s ease;
+}
+
+/* Puedes poner esto en tu archivo CSS o dentro de <style> en tu HTML */
+#dialog {
+  background-color: black;
+  color: white;
+  padding: 10px;
+  border-radius: 0;
+  border: 2px solid white;
+  width: 400px;
+  min-height: 80px;
+  max-width: 90vw;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: left;
+  display: none;
+  z-index: 200; /* Aseguramos que esté por encima del mundo */
+  font-size: 18px;
+  font-family: 'Press Start 2P', monospace;
+} 
+
+#dialogText {
+  width: 100%;
+  min-height: 60px;  /* Mantiene el cuadro estable aunque el texto sea corto */
+  display: block;
+  word-break: break-word;
+  text-align: left;
+}
+
+#dialog, #dialogText, .option {
+  font-family: 'Press Start 2P', monospace;
+}
+
+#start-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  font-family: 'Press Start 2P', monospace;
+}
+
+#start-shadow {
+  width: 80px;
+  height: 119px;
+  display: block;
+  margin-bottom: 30px;
+  animation: subir-bajar 2.5s infinite ease-in-out;
+}
+
+@keyframes subir-bajar {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-30px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Animación específica para el fantasma (flotar sutilmente) */
+@keyframes subir-bajar-fantasma {
+  0%   { transform: translateY(0px); opacity: 0.95; }
+  50%  { transform: translateY(-12px); opacity: 1; }
+  100% { transform: translateY(0px); opacity: 0.95; }
+}
+
+#fantasma {
+  will-change: transform, opacity;
+  animation: subir-bajar-fantasma 1.5s infinite ease-in-out;
+}
+
+#start-btn {
+  width: 180px;         /* Ajusta el tamaño según tu diseño */
+  height: auto;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: transform 0.2s;
+  user-select: none;
+}
+
+#start-btn:active {
+  transform: scale(0.95);
+}
+
+#welcome-text {
+  color: white;
+  font-size: 1.6em;
+  margin-bottom: 200px;
+  text-align: center;
+  font-family: 'Determination Mono', monospace;
+  letter-spacing: 2px;
+}
+
+#fade-overlay {
+  pointer-events: none;
+}
+
+.next-arrow {
+  font-size: 1em;
+  background: black;
+  color: white;
+  border: 2px solid white;
+  border-radius: 0;
+  padding: 1px 1px;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.chica-flotante {
+  animation: subir-bajar-chica 2.5s infinite ease-in-out;
+}
+
+@keyframes subir-bajar-chica {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-30px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Imagen de la foca realista como sprite dentro de #frame (más pequeña: ancho 114px = 1/9 del original) */
+.foca-realista {
+  position: absolute; /* relativo al #frame */
+  bottom: 10px;
+  right: 40px;
+  width: 114px; /* 1026 / 9 */
+  height: auto; /* mantiene proporción */
+  z-index: 6; /* por encima de decoraciones dentro del frame */
+  pointer-events: none; /* no interfiere con clicks */
+  /* Temblor frenético, desplazamientos muy pequeños (no se mueve demasiado) */
+  will-change: transform;
+  transform-origin: center;
+  animation: foca-tremble 0.06s linear infinite;
+}
+
+@keyframes foca-tremble {
+  0%   { transform: translate(0px, 0px) rotate(0deg); }
+  20%  { transform: translate(1px, -1px) rotate(-1deg); }
+  40%  { transform: translate(-1px, 1px) rotate(1deg); }
+  60%  { transform: translate(1px, 1px) rotate(-1deg); }
+  80%  { transform: translate(-1px, -1px) rotate(1deg); }
+  100% { transform: translate(0px, 0px) rotate(0deg); }}
+
+@keyframes subir-bajar-chica {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-30px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Confetti overlay */
+#confetti-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 10000;
+}
+
+/* Full-screen black overlay used for 'watching TV' */
+#screen-overlay {
+  position: fixed;
+  inset: 0;
+  display: none; /* shown when active */
+  align-items: center;
+  justify-content: center;
+  background: black;
+  z-index: 10001; /* above confetti */
+}
+
+#screen-overlay video {
+  max-width: 80vw;
+  max-height: 80vh;
+  box-shadow: 0 0 40px rgba(0,0,0,0.8);
+  border-radius: 6px;
+}
+
+/* Note overlay content */
+#screen-overlay .note-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+#screen-overlay .note-img {
+  max-width: 80vw;
+  max-height: 70vh;
+  box-shadow: 0 0 30px rgba(0,0,0,0.8);
+}
+#screen-overlay .note-exit {
+  background: black;
+  color: white;
+  border: 2px solid white;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+}
+#screen-overlay .note-exit:active { transform: scale(0.98); }
+
+/* Single confetti piece */
+.confetti {
+  position: absolute;
+  width: var(--w, 8px);
+  height: var(--h, 12px);
+  background-color: var(--c, #f94144);
+  top: -10vh;
+  left: var(--left, 50%);
+  opacity: 0.95;
+  border-radius: 2px;
+  transform: translateX(0) rotate(var(--rot, 0deg));
+  animation: confetti-fall var(--dur, 3s) linear forwards;
+}
+
+/* fall animation: vertical + horizontal drift + rotation via --rot */
+@keyframes confetti-fall {
+  0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) translateX(var(--dx, 0px)) rotate(var(--rot, 360deg)); opacity: 1; }
+}
